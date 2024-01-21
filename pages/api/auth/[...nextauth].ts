@@ -1,11 +1,10 @@
-import prismadb from "@/lib/prismadb";
 import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
-import { signIn } from "next-auth/react";
+import prismadb from "@/lib/prismadb";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -34,21 +33,26 @@ export const authOptions: AuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password required");
         }
+
         const user = await prismadb.user.findUnique({
           where: {
             email: credentials.email,
           },
         });
+
         if (!user || !user.hashedPassword) {
           throw new Error("Email does not exist");
         }
+
         const isCorrectPassword = await compare(
           credentials.password,
           user.hashedPassword
         );
+
         if (!isCorrectPassword) {
           throw new Error("Incorrect password");
         }
+
         return user;
       },
     }),
