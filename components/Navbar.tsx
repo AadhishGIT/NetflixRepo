@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import MobileMenu from "./MobileMenu";
-import { BsChevronDown, BsSearch, BsBell } from "react-icons/bs";
+import { FaChevronDown, FaRegBell } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 import AccountMenu from "./AccountMenu";
 import NavbarItem from "./NavbarItem";
+import Search from "./Search";
 
 const TOP_OFFSET = 66;
 
@@ -69,7 +71,7 @@ const Navbar = () => {
           className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative"
         >
           <p className="text-white text-sm">Browse</p>
-          <BsChevronDown
+          <FaChevronDown
             className={`text-white transition ${
               showMobileMenu ? "rotate-180" : "rotate-0"
             }`}
@@ -77,20 +79,19 @@ const Navbar = () => {
           <MobileMenu visible={showMobileMenu} />
         </div>
         <div className="flex flex-row ml-auto gap-7 items-center">
-          <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
-            <BsSearch />
-          </div>
-          <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
-            <BsBell />
+          <Search />
+          <div className="text-gray-100 hover:text-gray-300 cursor-pointer transition">
+            <FaRegBell />
           </div>
           <div
-            onClick={toggleAccountMenu}
+            onMouseEnter={toggleAccountMenu}
+            onMouseLeave={toggleAccountMenu}
             className="flex flex-row items-center gap-2 cursor-pointer relative"
           >
             <div className="w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden">
               <img src="/images/default-blue.png" alt="" />
             </div>
-            <BsChevronDown
+            <FaChevronDown
               className={`text-white transition ${
                 showAccountsMenu ? "rotate-180" : "rotate-0"
               }`}
